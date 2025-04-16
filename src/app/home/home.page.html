@@ -1,0 +1,67 @@
+<ion-header>
+    <ion-toolbar class="custom-toolbar">
+      <ion-title>🌤️ Area Info Lookup</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="ion-padding custom-background">
+    <ion-grid>
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="6" size-sm="12">
+          <ion-card class="search-card fade-in">
+            <ion-card-content>
+              <ion-item>
+                <ion-input [(ngModel)]="city" placeholder="🔍 Enter city name"></ion-input>
+              </ion-item>
+              <ion-button expand="block" color="tertiary" (click)="getWeather()">
+                Get Weather
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+  
+          <!-- Weather Display -->
+          <ion-card *ngIf="weather" class="weather-card fade-in">
+            <ion-card-header>
+              <ion-card-title>{{ weather.name }}</ion-card-title>
+              <ion-card-subtitle>{{ weather.weather[0].main | titlecase }}</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+              <p>
+                <ion-icon name="thermometer-outline"></ion-icon>
+                Temperature: {{ weather.main.temp }} °C
+              </p>
+              <p>
+                <ion-icon name="cloudy-outline"></ion-icon>
+                Condition: {{ weather.weather[0].description }}
+              </p>
+              <p>
+                <ion-icon name="navigate-outline"></ion-icon>
+                Wind: {{ weather.wind.speed }} m/s
+              </p>
+              <ion-button expand="block" color="success" (click)="saveToFavorites()">
+                ❤️ Save to Favorites
+              </ion-button>
+            </ion-card-content>
+          </ion-card>
+  
+          <!-- Favorites List -->
+          <ion-card *ngIf="favorites.length" class="favorites-card fade-in">
+            <ion-card-header>
+              <ion-card-title>📌 Favorites</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ion-item *ngFor="let fav of favorites">
+                  <ion-label>
+                    <strong>{{ fav.name }}</strong><br />
+                    {{ fav.main.temp }} °C — {{ fav.weather[0].main }}
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+  
