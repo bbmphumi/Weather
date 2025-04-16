@@ -1,67 +1,36 @@
 <ion-header>
-    <ion-toolbar class="custom-toolbar">
-      <ion-title>🌤️ Area Info Lookup</ion-title>
+    <ion-toolbar>
+      <ion-title>Area Info Lookup</ion-title>
     </ion-toolbar>
   </ion-header>
   
-  <ion-content class="ion-padding custom-background">
-    <ion-grid>
-      <ion-row class="ion-justify-content-center">
-        <ion-col size-md="6" size-sm="12">
-          <ion-card class="search-card fade-in">
-            <ion-card-content>
-              <ion-item>
-                <ion-input [(ngModel)]="city" placeholder="🔍 Enter city name"></ion-input>
-              </ion-item>
-              <ion-button expand="block" color="tertiary" (click)="getWeather()">
-                Get Weather
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
+  <ion-content class="ion-padding">
+    <ion-item>
+      <ion-input placeholder="Enter city" [(ngModel)]="cityName"></ion-input>
+      <ion-button (click)="searchCity()">Search</ion-button>
+    </ion-item>
   
-          <!-- Weather Display -->
-          <ion-card *ngIf="weather" class="weather-card fade-in">
-            <ion-card-header>
-              <ion-card-title>{{ weather.name }}</ion-card-title>
-              <ion-card-subtitle>{{ weather.weather[0].main | titlecase }}</ion-card-subtitle>
-            </ion-card-header>
-            <ion-card-content>
-              <p>
-                <ion-icon name="thermometer-outline"></ion-icon>
-                Temperature: {{ weather.main.temp }} °C
-              </p>
-              <p>
-                <ion-icon name="cloudy-outline"></ion-icon>
-                Condition: {{ weather.weather[0].description }}
-              </p>
-              <p>
-                <ion-icon name="navigate-outline"></ion-icon>
-                Wind: {{ weather.wind.speed }} m/s
-              </p>
-              <ion-button expand="block" color="success" (click)="saveToFavorites()">
-                ❤️ Save to Favorites
-              </ion-button>
-            </ion-card-content>
-          </ion-card>
+    <div *ngIf="weatherData">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ weatherData.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p>Temperature: {{ weatherData.main.temp }}°C</p>
+          <p>Weather: {{ weatherData.weather[0].description }}</p>
+          <p>Wind Speed: {{ weatherData.wind.speed }} m/s</p>
+          <ion-button (click)="saveToFavorites()">Save to Favorites</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
   
-          <!-- Favorites List -->
-          <ion-card *ngIf="favorites.length" class="favorites-card fade-in">
-            <ion-card-header>
-              <ion-card-title>📌 Favorites</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <ion-list>
-                <ion-item *ngFor="let fav of favorites">
-                  <ion-label>
-                    <strong>{{ fav.name }}</strong><br />
-                    {{ fav.main.temp }} °C — {{ fav.weather[0].main }}
-                  </ion-label>
-                </ion-item>
-              </ion-list>
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Favorites</ion-label>
+      </ion-list-header>
+      <ion-item *ngFor="let city of favoriteCities">
+        <ion-label (click)="searchCity(city)">{{ city }}</ion-label>
+      </ion-item>
+    </ion-list>
   </ion-content>
   
